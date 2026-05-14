@@ -119,16 +119,3 @@ The goal is to convert these 2D projections into thin 1 mm slices that allow the
 *   **Detector Misalignment:** If the detector and the moving tube are not perfectly synchronized, microcalcifications may appear as "double images" or "smears".
 *   **Breast Motion:** Even slight patient movement during the 5-10 second DBT scan arc creates "rippling" artifacts in the reconstructed slices.
 
----
-
-##### 🖥️ Implementation: Simulating Depth Separation
-The computational focus is on demonstrating how moving the source across an arc allows us to mathematically "focus" on a specific plane while blurring out the tissues above and below it.
-
----
-
-### Next Steps: New Modules
-Now that we have cleaned up the existing modules, we can proceed to create the **new modules** we discussed. Which one would you like to build first?
-
-1.  **Mean Glandular Dose (MGD) & Dosimetry:** Deep dive into how we calculate the actual radiation risk to breast tissue.
-2.  **Radiological Anatomy & Tissue Physics:** Understanding the $\mu$ (attenuation) differences between glandular, adipose, and cancerous tissues.
-3.  **Synthetic Mammography (C-View):** How AI and geometry are used to create a 2D image from 3D DBT data to save dose.
