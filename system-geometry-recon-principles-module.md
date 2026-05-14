@@ -76,3 +76,59 @@ Any discrepancy between the *assumed* geometry (the parameters input into the re
 3.  **Detector Misalignment:** If the measured projection angle $(\theta)$ is slightly off, the backprojection will not perfectly overlap the data, leading to faint streaks or 'ghost' artifacts.
 
 **Conclusion:** A robust imaging system requires not only high-quality X-ray generation but also an extremely precise characterization of the source, object, and detector positions, allowing the mathematical reconstruction process to flawlessly invert the Radon Transform.
+
+---
+
+
+The geometry discussed till now is mainly for CT systems.
+
+In Digital Breast Tomosynthesis (DBT), the geometry is different because the X-ray tube moves across a **limited arc** (usually 15° to 50°) rather than a full circle.
+---
+
+### 📐 System Geometry and Digital Breast Tomosynthesis (DBT) Reconstruction
+
+#### 📝 Theory: Limited-Angle Geometry and Slice Reconstruction
+In mammography, the physical arrangement of the source, breast, and detector is critical. While standard mammography uses a fixed geometry, DBT introduces motion to capture depth information.
+
+##### 1. The Mammography Gantry Geometry
+The system is a controlled chain designed to maximize resolution and minimize magnification errors.
+*   **Focal Spot Size:** Mammography uses a very small focal spot (typically 0.1 to 0.3 mm) to maintain high spatial resolution for detecting tiny microcalcifications.
+*   **Source-to-Image Distance (SID):** Usually fixed around 65-70 cm. Any deviation in the assumed SID during reconstruction leads to scaling artifacts and incorrect sizing of lesions.
+*   **Object-to-Detector Distance (ODD):** Minimized through compression to reduce geometric magnification, which would otherwise blur the image (penumbra effect).
+
+---
+
+##### 2. DBT Acquisition: Limited-Angle Tomography
+Unlike CT, which acquires data from 360° around the patient, DBT is **Limited-Angle Tomography**.
+*   **The Scan Arc:** The X-ray tube moves in a small arc over the compressed breast, taking a discrete number of low-dose projections (e.g., 15-25 projections).
+*   **Angular Sampling:** Because we do not have a "complete" dataset (missing angles), the reconstruction cannot use the standard Radon Transform found in CT without significant modification.
+
+---
+
+##### 3. The Math of DBT Reconstruction: Beyond Simple Backprojection
+The goal is to convert these 2D projections into thin 1 mm slices that allow the radiologist to "see through" overlapping tissue.
+
+*   **Filtered Backprojection (FBP) for DBT:** In DBT, the "filtering" step is not a standard Ram-Lak filter but is optimized to handle the limited data and reduce the **"out-of-plane" artifacts** (where a dense object in one slice appears as a ghost in others).
+*   **Iterative Reconstruction:** Modern systems often use iterative algorithms. These start with an estimate of the breast volume and "correct" it repeatedly by comparing it to the actual measured projections until the error is minimized. This provides better noise reduction than FBP.
+*   **Voxel Resolution:** In DBT, pixels become **voxels** (3D pixels). While the X-Y resolution is very high (determined by the detector), the Z-axis (depth) resolution is lower due to the limited acquisition angle.
+
+---
+
+##### 4. Specific Artifacts in Breast Imaging Geometry
+*   **Limited-Angle Artifacts:** Because X-rays don't pass through the sides of the breast at 90°, the reconstruction of vertical borders is less sharp than horizontal ones.
+*   **Detector Misalignment:** If the detector and the moving tube are not perfectly synchronized, microcalcifications may appear as "double images" or "smears".
+*   **Breast Motion:** Even slight patient movement during the 5-10 second DBT scan arc creates "rippling" artifacts in the reconstructed slices.
+
+---
+
+##### 🖥️ Implementation: Simulating Depth Separation
+The computational focus is on demonstrating how moving the source across an arc allows us to mathematically "focus" on a specific plane while blurring out the tissues above and below it.
+
+---
+
+### Next Steps: New Modules
+Now that we have cleaned up the existing modules, we can proceed to create the **new modules** we discussed. Which one would you like to build first?
+
+1.  **Mean Glandular Dose (MGD) & Dosimetry:** Deep dive into how we calculate the actual radiation risk to breast tissue.
+2.  **Radiological Anatomy & Tissue Physics:** Understanding the $\mu$ (attenuation) differences between glandular, adipose, and cancerous tissues.
+3.  **Synthetic Mammography (C-View):** How AI and geometry are used to create a 2D image from 3D DBT data to save dose.
